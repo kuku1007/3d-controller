@@ -24,6 +24,8 @@ namespace LM
             );
             if(playerLocomotion.inputHandler.roll_Input) ExitState(playerLocomotion, playerLocomotion.rollState);
             if(playerLocomotion.inputHandler.jumpImput) ExitState(playerLocomotion, playerLocomotion.jumpState);
+            if(playerLocomotion.inputHandler.normalAttackInput) ExitState(playerLocomotion, playerLocomotion.normalActionState);
+            if(playerLocomotion.inputHandler.alternativeAttackInput) ExitState(playerLocomotion, playerLocomotion.alternativeActionState);
         }
 
         public override void ExitState(PlayerLocomotion playerLocomotion, State newState)

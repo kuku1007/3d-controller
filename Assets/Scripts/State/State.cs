@@ -1,8 +1,12 @@
+using UnityEngine;
+
 namespace LM{
     
 public abstract class State
 {
-    public abstract void EnterState(PlayerLocomotion playerLocomotion);
+    public virtual void EnterState(PlayerLocomotion playerLocomotion) {
+        Debug.Log("Entering " + this.GetType().Name);
+    }
     public abstract void OnUpdate(PlayerLocomotion playerLocomotion);
     public abstract void ExitState(PlayerLocomotion playerLocomotion, State newState);
 }

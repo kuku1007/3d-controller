@@ -37,21 +37,37 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\WeaponBodySlotManager.cs" />
-     <Compile Include="Assets\MovementManager.cs" />
+     <Compile Include="Assets\Scripts\UI\FocusBar.cs" />
+     <Compile Include="Assets\Scripts\CharacterStats.cs" />
+     <Compile Include="Assets\Scripts\UI\InteractableUI.cs" />
+     <Compile Include="Assets\Scripts\UI\HealthBar.cs" />
+     <Compile Include="Assets\Scripts\State\AlternativeActionState.cs" />
      <Compile Include="Assets\Scripts\State\MoveState.cs" />
+     <Compile Include="Assets\Scripts\PlayerInventory.cs" />
+     <Compile Include="Assets\Scripts\UI\StaminaBar.cs" />
+     <Compile Include="Assets\Scripts\PlayerAttacker.cs" />
+     <Compile Include="Assets\Scripts\UI\EquipementWindowUI.cs" />
      <Compile Include="Assets\Scripts\Item\Item.cs" />
+     <Compile Include="Assets\Scripts\PlayerStats.cs" />
      <Compile Include="Assets\Scripts\PlayerLocomotion.cs" />
+     <Compile Include="Assets\Scripts\UI\UIManager.cs" />
      <Compile Include="Assets\Scripts\State\FallState.cs" />
      <Compile Include="Assets\Input\PlayerControls.cs" />
      <Compile Include="Assets\Scripts\State\State.cs" />
+     <Compile Include="Assets\Scripts\UI\QuickSlotsUI.cs" />
      <Compile Include="Assets\Scripts\InputHandler.cs" />
-     <Compile Include="Assets\Scripts\Item\WeaponItem.cs" />
      <Compile Include="Assets\Scripts\Item\WeaponType.cs" />
+     <Compile Include="Assets\Scripts\UI\HandEquipmentSlot.cs" />
      <Compile Include="Assets\Scripts\WeaponBodyHolderSlot.cs" />
      <Compile Include="Assets\Scripts\PlayerAnimationManager.cs" />
+     <Compile Include="Assets\Scripts\UI\WeaponInventorySlot.cs" />
      <Compile Include="Assets\Scripts\State\RollState.cs" />
+     <Compile Include="Assets\Scripts\Item\DamageCollider.cs" />
      <Compile Include="Assets\Scripts\ResetAnimatorBool.cs" />
+     <Compile Include="Assets\Scripts\State\NormalActionState.cs" />
      <Compile Include="Assets\Scripts\State\JumpState.cs" />
+     <Compile Include="Assets\Scripts\Item\WeaponItem.cs" />
+     <Compile Include="Assets\Scripts\PlayerManager.cs" />
     <Reference Include="UnityEngine">
         <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.19f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

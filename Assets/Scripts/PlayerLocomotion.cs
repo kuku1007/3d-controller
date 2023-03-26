@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace LM
 {
-public class PlayerLocomotion : MonoBehaviour
+public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to PlayerManager and move some logic to other class for movement
 {
     [Header("Dependencies")]
     public Transform camFollowTransform;
@@ -28,6 +28,9 @@ public class PlayerLocomotion : MonoBehaviour
     public JumpState jumpState = new JumpState();
     public FallState fallState = new FallState();
     public RollState rollState = new RollState();
+    public NormalActionState normalActionState = new NormalActionState();
+    public AlternativeActionState alternativeActionState = new AlternativeActionState();
+
     public Vector3 currentInAirDirection;
 
     void Start()
@@ -76,6 +79,8 @@ public class PlayerLocomotion : MonoBehaviour
         inputHandler.lookInput = Vector2.zero;
         inputHandler.jumpImput = false;
         inputHandler.roll_Input = false;
+        inputHandler.normalAttackInput = false;
+        inputHandler.alternativeAttackInput = false;
     }
 
     private void FetchTargetDirection() {
@@ -94,6 +99,7 @@ public class PlayerLocomotion : MonoBehaviour
     
     public void HandleGravity() {
         // TODO: edit: there are some issues with isGrounded when Move triggered twice in frame
+        Debug.Log("isg " + characterController.isGrounded);
         if(characterController.isGrounded && verticalVelocity.y < 0) {
             verticalVelocity.y = 0;
         }

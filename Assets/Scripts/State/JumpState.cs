@@ -7,7 +7,7 @@ namespace LM
 
     public class JumpState : State
     {
-        public float jumpPower = 1.5f;
+        public float jumpPower = 1f;
         public override void EnterState(PlayerLocomotion playerLocomotion)
         {
             Debug.Log("Entering Jump state");
@@ -19,7 +19,6 @@ namespace LM
         {
             playerLocomotion.HandleMovement(playerLocomotion.currentInAirDirection);
             playerLocomotion.HandleGravity();
-            playerLocomotion.HandleRotation();
             if(playerLocomotion.playerAnimationManager.anim.GetBool("animationOngoing") == false) ExitState(playerLocomotion, playerLocomotion.fallState);
         }
         
@@ -29,7 +28,7 @@ namespace LM
         }
 
         private void SetVerticalVelocityAndPlayJump(PlayerAnimationManager playerAnimationManager, InputHandler inputHandler, PlayerLocomotion playerLocomotion) {
-            playerLocomotion.verticalVelocity.y += Mathf.Sqrt(jumpPower * -3f * playerLocomotion.gravity);
+            playerLocomotion.verticalVelocity.y = Mathf.Sqrt(jumpPower * -3f * playerLocomotion.gravity);
             playerAnimationManager.PlayTargetAnimation("Jump", true);
         }
     }

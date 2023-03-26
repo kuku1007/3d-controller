@@ -8,9 +8,9 @@ namespace LM{
         public Vector2 lookInput;
 
         public bool roll_Input;
-        public bool rb_Input;
+        public bool normalAttackInput;
         public bool rbHold_Input;
-        public bool rt_Input;
+        public bool alternativeAttackInput;
         public bool jumpImput;
         public bool interact_Input;
         public bool inventory_Input;
@@ -39,8 +39,8 @@ namespace LM{
                 playerControlsInputActions.PlayerMovementMap.Look.performed += inputActions => lookInput = inputActions.ReadValue<Vector2>();
                 playerControlsInputActions.PlayerMovementMap.Movement.performed += inputActions => movementInput = inputActions.ReadValue<Vector2>();
                 playerControlsInputActions.PlayerActionsMap.Jump.performed += inputActions => jumpImput = true;
-                playerControlsInputActions.PlayerActionsMap.RB.performed += i => rb_Input = true;
-                playerControlsInputActions.PlayerActionsMap.RT.performed += i => rt_Input = true;
+                playerControlsInputActions.PlayerActionsMap.RB.performed += i => normalAttackInput = true;
+                playerControlsInputActions.PlayerActionsMap.RT.performed += i => alternativeAttackInput = true;
                 playerControlsInputActions.PlayerQuickSlotsMap.LeftArrow.performed += i => l_Arrow = true;
                 playerControlsInputActions.PlayerQuickSlotsMap.RightArrow.performed += i => r_Arrow = true; // TODO: instead changing boolean I can subscribe here NextRightWeapon();
                 playerControlsInputActions.PlayerActionsMap.Interact.performed += i => interact_Input = true;

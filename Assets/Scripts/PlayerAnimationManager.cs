@@ -76,7 +76,7 @@ namespace LM {
 
             if(v < 0 && h != 0) { // If strafe then do not walk back
                 v = 0;
-            } 
+            }
             anim.SetFloat(vertical, v, 0.1f, Time.deltaTime);
             anim.SetFloat(horizontal, h, 0.1f, Time.deltaTime);
         }

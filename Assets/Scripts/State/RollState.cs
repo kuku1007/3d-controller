@@ -7,7 +7,7 @@ namespace LM
 
 public class RollState : State
 {
-    private float rollSpeed = 50;
+    private float rollSpeed = 300;
     public override void EnterState(PlayerLocomotion playerLocomotion)
     {
         Debug.Log("Entered Roll state");
@@ -21,6 +21,7 @@ public class RollState : State
         if(playerLocomotion.playerAnimationManager.anim.GetBool("animationOngoing") == false) {
             ExitState(playerLocomotion, playerLocomotion.moveState);
         }
+        if(playerLocomotion.isOnGround == false) ExitState(playerLocomotion, playerLocomotion.fallState);
     }
     
     public override void ExitState(PlayerLocomotion playerLocomotion, State newState)

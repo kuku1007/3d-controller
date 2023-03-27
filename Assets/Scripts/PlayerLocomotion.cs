@@ -12,15 +12,24 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
     [HideInInspector] public CharacterController characterController;
     [HideInInspector] public InputHandler inputHandler;
     [HideInInspector] public PlayerAnimationManager playerAnimationManager;
+    [HideInInspector] public PlayerInventory playerInventory;
+    [HideInInspector] public WeaponBodySlotManager weaponBodySlotManager;
     
     [Header("Parameters")]
-    public Vector3 verticalVelocity;
+    public LayerMask groundLayer;
     public float gravity = -9.8f;
-    
-    public Vector3 direction;
-    public float rotationSpeed = 10f;
+    public float groundCheckVerticalOffset = 0.95f;
+    public float groundCheckRadiusOffset = 0.04f;
+    public float slipCheckVerticalOffset = 1.1f;
+    public float slipCheckRadiusOffset = 0.2f;
+    public float wallCheckVerticalOffset = 0.71f;
+    public float wallCheckRadiusOffset = 0f;
+    public float rotationSpeed = 0.1f;
     public float movementSpeed = 3;
     public bool isSprinting; // TODO
+    public float slipSpeed = 3;
+    [SerializeField] Vector2 m_wallCheck = new Vector2(0.31f, 0.31f);
+	[SerializeField] Vector3 m_groundCheck = new Vector3(0.1f, 0.2f, 0.4f);
 
     [Header("States")]
     public State currentState;
@@ -32,14 +41,20 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
     public AlternativeActionState alternativeActionState = new AlternativeActionState();
 
     public Vector3 currentInAirDirection;
+    public bool isOnGround;
+    public Vector3 inputDirection;
+    public Vector3 verticalVelocity;
+    public Vector3 charVel;
 
     void Start()
     {
         // Application.targetFrameRate = 30;
         characterController = GetComponent<CharacterController>();
         inputHandler = GetComponent<InputHandler>();
+        playerInventory = GetComponent<PlayerInventory>();
+        weaponBodySlotManager = GetComponentInChildren<WeaponBodySlotManager>();
         playerAnimationManager = GetComponentInChildren<PlayerAnimationManager>();
-        playerAnimationManager.Initialize();
+        playerAnimationManager.Initialize(); // TODO: wwhy
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -48,26 +63,11 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
 
     void Update()
     {   
+        isOnGround = isGrounded();
         inputHandler.TickInput(Time.deltaTime);
         FetchTargetDirection();
-        
+        charVel = characterController.velocity;
         currentState.OnUpdate(this);
-
-        #region OLD
-        // inputHandler.TickInput(Time.deltaTime);
-        // if(characterController.isGrounded && playerAnimationManager.anim.GetBool("isInAir") == true) {
-        //     playerAnimationManager.anim.SetBool("isInAir", false);
-        //     playerAnimationManager.PlayTargetAnimation("Empty", false);
-        // }
-        // FetchTargetDirection();
-        // HandleRolling();
-        // HandleJump();
-        // if(!playerAnimationManager.anim.GetBool("animationOngoing")) {
-        //     HandleMovement(); // TODO here: pass dependencies to methods that are using it
-        // }
-        // HandleRotation();
-        // HandleAnimatorMotionMovement();
-        #endregion
     }
 
     void LateUpdate() {
@@ -84,8 +84,8 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
     }
 
     private void FetchTargetDirection() {
-        direction = transform.forward * inputHandler.movementInput.y + transform.right * inputHandler.movementInput.x;
-        direction.Normalize();
+        inputDirection = transform.forward * inputHandler.movementInput.y + transform.right * inputHandler.movementInput.x;
+        inputDirection.Normalize();
     }
     
     public void SetState(State state) {
@@ -98,14 +98,67 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
     }
     
     public void HandleGravity() {
-        // TODO: edit: there are some issues with isGrounded when Move triggered twice in frame
-        Debug.Log("isg " + characterController.isGrounded);
-        if(characterController.isGrounded && verticalVelocity.y < 0) {
-            verticalVelocity.y = 0;
+        if(isOnGround && verticalVelocity.y < 0) {
+            verticalVelocity.y = -2;
         }
         verticalVelocity.y += gravity * Time.deltaTime;
         characterController.Move(verticalVelocity * Time.deltaTime);
     }
+
+    private bool isGrounded() {
+        Vector3 spherePos = transform.position;
+        spherePos.y -= groundCheckVerticalOffset;
+        return Physics.CheckSphere(spherePos, characterController.radius - groundCheckRadiusOffset, groundLayer);
+    }
+
+    public void HandleSlippery() {
+        Vector3 spherePos = transform.position;
+        spherePos.y -= wallCheckVerticalOffset;
+  
+        Collider[] colliders = Physics.OverlapSphere(spherePos, characterController.radius + wallCheckRadiusOffset, groundLayer);
+        if(colliders.Length > 0)
+        {
+            Vector3 slipDirection = Vector3.zero;
+
+            foreach (Collider collider in colliders)
+            {
+                Vector3 colliderPosition = collider.transform.position;
+                Vector3 intersectionDirection = (spherePos - colliderPosition).normalized;
+                intersectionDirection.y *= -1; // slip down
+                slipDirection += intersectionDirection;
+            }
+			SlipMove(slipDirection);
+		}
+    }
+
+    public bool checkIfActivateSlippery() {
+        Vector3 spherePos = transform.position;
+        spherePos.y -= slipCheckVerticalOffset;
+        return !Physics.CheckSphere(spherePos, characterController.radius - slipCheckRadiusOffset, groundLayer);
+    }
+
+	void SlipMove(Vector3 slip_direction){
+		characterController.Move(((slip_direction * slipSpeed) + Vector3.down) * Time.deltaTime);
+	}
+
+    void OnDrawGizmos(){
+        if(characterController == null)
+            return;
+        Gizmos.color = Color.red; // is Grounded check
+        Vector3 spherePos = transform.position;
+        spherePos.y -= groundCheckVerticalOffset;
+        Gizmos.DrawWireSphere(spherePos, characterController.radius - groundCheckRadiusOffset);
+        
+        spherePos = transform.position; // wall slippery sphere
+        spherePos.y -= wallCheckVerticalOffset;
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(spherePos, characterController.radius + wallCheckRadiusOffset);
+
+        Gizmos.color = Color.yellow; // start slippery sphere check
+        spherePos = transform.position;
+        spherePos.y -= slipCheckVerticalOffset;
+        Gizmos.DrawWireSphere(spherePos, characterController.radius - slipCheckRadiusOffset);
+	}
 
     public void HandleRotation() {
         #region Follow Transform Rotation

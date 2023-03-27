@@ -11,7 +11,8 @@ namespace LM
         public override void EnterState(PlayerLocomotion playerLocomotion)
         {
             Debug.Log("Entering Jump state");
-            playerLocomotion.currentInAirDirection = playerLocomotion.direction;
+            playerLocomotion.currentInAirDirection = playerLocomotion.inputDirection;
+            playerLocomotion.movementSpeed = 3;
             SetVerticalVelocityAndPlayJump(playerLocomotion.playerAnimationManager, playerLocomotion.inputHandler, playerLocomotion);
         }
 
@@ -19,7 +20,8 @@ namespace LM
         {
             playerLocomotion.HandleMovement(playerLocomotion.currentInAirDirection);
             playerLocomotion.HandleGravity();
-            if(playerLocomotion.playerAnimationManager.anim.GetBool("animationOngoing") == false) ExitState(playerLocomotion, playerLocomotion.fallState);
+            if(playerLocomotion.playerAnimationManager.anim.GetBool("animationOngoing") == false) 
+                ExitState(playerLocomotion, playerLocomotion.fallState);
         }
         
         public override void ExitState(PlayerLocomotion playerLocomotion, State newState)

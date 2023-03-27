@@ -9,10 +9,13 @@ namespace LM
     {
         public override void EnterState(PlayerLocomotion playerLocomotion)
         {
-             base.EnterState(playerLocomotion);
-            HandleMeleeLightAttack(playerLocomotion.playerAnimationManager, null); // TODO: current weapon should be taken from player inventory
+            base.EnterState(playerLocomotion);
+            HandleMeleeLightAttack(
+                playerLocomotion.playerAnimationManager, 
+                playerLocomotion.playerInventory.rightHandWeapon,
+                playerLocomotion.weaponBodySlotManager
+            ); // TODO: currently attack always with right hand
         }
-
         public override void OnUpdate(PlayerLocomotion playerLocomotion)
         {            
             if(playerLocomotion.playerAnimationManager.anim.GetBool("animationOngoing") == false) ExitState(playerLocomotion, playerLocomotion.moveState);
@@ -23,8 +26,9 @@ namespace LM
             playerLocomotion.SetState(newState);
         }
 
-        private void HandleMeleeLightAttack(PlayerAnimationManager playerAnimationManager, WeaponItem weapon) { // TODO: use attack name from weapon
-            playerAnimationManager.PlayTargetAnimation("Standing Melee Attack Downward", true);
+        private void HandleMeleeLightAttack(PlayerAnimationManager playerAnimationManager, WeaponItem weapon, WeaponBodySlotManager weaponBodySlotManager) {
+            weaponBodySlotManager.SetAttackingWeapon(weapon);
+            playerAnimationManager.PlayTargetAnimation(weapon.lightAttack1, true);
         }
     }
 

@@ -10,24 +10,24 @@ namespace LM
         public override void EnterState(PlayerLocomotion playerLocomotion)
         {
             Debug.Log("Entering Fall State");
-            PlayFallAnim(playerLocomotion.playerAnimationManager);
+            playerLocomotion.currentInAirDirection = playerLocomotion.inputDirection;
+            playerLocomotion.movementSpeed = 3;
+            playerLocomotion.HandleSlippery();
+            playerLocomotion.playerAnimationManager.PlayTargetAnimation("Falling", true);
         }
 
         public override void OnUpdate(PlayerLocomotion playerLocomotion)
         {
+            playerLocomotion.HandleSlippery();
             playerLocomotion.HandleMovement(playerLocomotion.currentInAirDirection);
             playerLocomotion.HandleGravity();
-            if(playerLocomotion.characterController.isGrounded) ExitState(playerLocomotion, playerLocomotion.moveState);
+            if(playerLocomotion.isOnGround) ExitState(playerLocomotion, playerLocomotion.moveState);  
         }
 
         public override void ExitState(PlayerLocomotion playerLocomotion, State newState)
         {
             playerLocomotion.playerAnimationManager.PlayTargetAnimation("Empty", false);
             playerLocomotion.SetState(newState);
-        }
-
-        private void PlayFallAnim(PlayerAnimationManager playerAnimationManager) {
-            playerAnimationManager.PlayTargetAnimation("Falling", true);
         }
     }
 

@@ -71,16 +71,5 @@ namespace LM
             // if(playerInventory.currentSpellItem != null)
             //     playerInventory.currentSpellItem.SuccessfullSpellCast(animatorHandler, playerStats);
         }
-
-        //TODO: tmp moved below methods here to remove exceptions
-        public void DrainStaminaFromLightAttack() {
-            // playerStats.TakeStaminaCost(attackingWeapon.lightAttackCost);
-        }
-        public void DrainStaminaFromHeavyAttack() {
-            // playerStats.TakeStaminaCost(attackingWeapon.heavyAttackCost);
-        }
-        public void DrainStaminaFromSlashAttack() {
-            // playerStats.TakeStaminaCost(attackingWeapon.slashAttackCost);
-        }
     }
 }

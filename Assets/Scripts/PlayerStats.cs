@@ -9,7 +9,7 @@ namespace LM {
         public HealthBar healthBar;
         public StaminaBar staminaBar;
         public FocusBar focusBar;
-        public PlayerAnimationManager animationHandler;
+        [HideInInspector] public PlayerAnimationManager animationHandler;
         PlayerLocomotion playerLocomotion;
 
         public float staminaRecoveryMultiplier = 10;

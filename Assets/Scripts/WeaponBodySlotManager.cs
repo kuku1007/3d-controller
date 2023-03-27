@@ -17,7 +17,7 @@ namespace LM {
         PlayerManager playerManager;
         WeaponItem attackingWeapon;
 
-        InputHandler inputHandler;
+        InputHandler inputHandler;          
         Animator animator;
 
         private void Awake() {
@@ -53,8 +53,6 @@ namespace LM {
 
             } else {
                 if(inputHandler.twoHFlag) {
-                    
-                    // backSlot.LoadWeaponModel(weaponItem);
                     // move left weapon on back
                     backSlot.LoadWeaponModel(leftHandSlot.currentWeapon);
                     leftHandSlot.DestroyCurrentWeapon();
@@ -98,19 +96,19 @@ namespace LM {
         }
         #endregion
     
-        // public void SetAttackingWeapon(WeaponItem weaponItem) {
-        //     this.attackingWeapon = weaponItem;
-        // }
+        public void SetAttackingWeapon(WeaponItem weaponItem) { // TODO: its here becasue of anim event methods like DrainStaminaFromLightAttack
+            this.attackingWeapon = weaponItem;
+        }
 
-        // public void DrainStaminaFromLightAttack() {
-        //     playerStats.TakeStaminaCost(attackingWeapon.lightAttackCost);
-        // }
-        // public void DrainStaminaFromHeavyAttack() {
-        //     playerStats.TakeStaminaCost(attackingWeapon.heavyAttackCost);
-        // }
-        // public void DrainStaminaFromSlashAttack() {
-        //     playerStats.TakeStaminaCost(attackingWeapon.slashAttackCost);
-        // }
+        public void DrainStaminaFromLightAttack() {
+            playerStats.TakeStaminaCost(attackingWeapon.lightAttackCost);
+        }
+        public void DrainStaminaFromHeavyAttack() {
+            playerStats.TakeStaminaCost(attackingWeapon.heavyAttackCost);
+        }
+        public void DrainStaminaFromSlashAttack() {
+            playerStats.TakeStaminaCost(attackingWeapon.slashAttackCost);
+        }
     }
 }
 

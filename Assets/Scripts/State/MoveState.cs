@@ -16,7 +16,7 @@ namespace LM
 
         public override void OnUpdate(PlayerLocomotion playerLocomotion)
         {
-            if(playerLocomotion.checkIfActivateSlippery()) {
+            if(playerLocomotion.groundUnderCenterPoint() == false) {
                 playerLocomotion.HandleSlippery();
             }
             playerLocomotion.HandleMovement(playerLocomotion.inputDirection);

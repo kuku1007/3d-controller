@@ -22,6 +22,7 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
     public float groundCheckRadiusOffset = 0.04f;
     public float slipCheckVerticalOffset = 1.1f;
     public float slipCheckRadiusOffset = 0.2f;
+    public float rayCastCheckDistance = 1.37f;
     public float wallCheckVerticalOffset = 0.71f;
     public float wallCheckRadiusOffset = 0f;
     public float rotationSpeed = 0.1f;
@@ -64,6 +65,7 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
     void Update()
     {   
         isOnGround = isGrounded();
+        // isOnGround = groundUnderCenterPoint();
         inputHandler.TickInput(Time.deltaTime);
         FetchTargetDirection();
         charVel = characterController.velocity;
@@ -131,13 +133,19 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
 		}
     }
 
-    public bool checkIfActivateSlippery() {
+    public bool checkIfActivateSlippery() { // TODO: not used - groundUnderCenterPoint used instead
         Vector3 spherePos = transform.position;
         spherePos.y -= slipCheckVerticalOffset;
         return !Physics.CheckSphere(spherePos, characterController.radius - slipCheckRadiusOffset, groundLayer);
     }
 
+    public bool groundUnderCenterPoint() {
+        Vector3 spherePos = transform.position;
+        return Physics.Raycast(spherePos, Vector3.down, rayCastCheckDistance, groundLayer);
+    }
+
 	void SlipMove(Vector3 slip_direction){
+        Debug.Log("slip active");
 		characterController.Move(((slip_direction * slipSpeed) + Vector3.down) * Time.deltaTime);
 	}
 
@@ -154,10 +162,15 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(spherePos, characterController.radius + wallCheckRadiusOffset);
 
-        Gizmos.color = Color.yellow; // start slippery sphere check
+        // Gizmos.color = Color.yellow; // check if slippery should be activated
+        // spherePos = transform.position;
+        // spherePos.y -= slipCheckVerticalOffset;
+        // Gizmos.DrawWireSphere(spherePos, characterController.radius - slipCheckRadiusOffset);
+
+        Gizmos.color = Color.red; // check if slippery should be activated
         spherePos = transform.position;
-        spherePos.y -= slipCheckVerticalOffset;
-        Gizmos.DrawWireSphere(spherePos, characterController.radius - slipCheckRadiusOffset);
+        Ray r = new Ray(spherePos, Vector3.down);
+        Gizmos.DrawRay(spherePos, Vector3.down * rayCastCheckDistance);
 	}
 
     public void HandleRotation() {

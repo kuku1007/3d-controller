@@ -18,6 +18,7 @@ public class RollState : State
     {
         playerLocomotion.HandleRotation();
         HandleAnimatorMotionMovement(playerLocomotion.playerAnimationManager, playerLocomotion.characterController);
+        playerLocomotion.HandleGravity();
         if(playerLocomotion.playerAnimationManager.anim.GetBool("animationOngoing") == false) {
             ExitState(playerLocomotion, playerLocomotion.moveState);
         }
@@ -31,7 +32,8 @@ public class RollState : State
 
     private void HandleAnimatorMotionMovement(PlayerAnimationManager playerAnimationManager, CharacterController characterController) {
         Vector3 deltaPostion = playerAnimationManager.anim.deltaPosition;
-        deltaPostion.y = 0;
+        // Debug.Log("delta v" + deltaPostion.y);
+        // deltaPostion.y = 0; // TODO: 
         characterController.Move(deltaPostion * Time.deltaTime * rollSpeed);
     }
 

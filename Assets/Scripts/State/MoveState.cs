@@ -11,7 +11,6 @@ namespace LM
         {
             Debug.Log("Entering Move State");
             playerLocomotion.movementSpeed = 5;
-            playerLocomotion.playerAnimationManager.PlayTargetAnimation("Locomotion", false); // TODO: is it still needed?
         }
 
         public override void OnUpdate(PlayerLocomotion playerLocomotion)
@@ -31,7 +30,7 @@ namespace LM
             if(playerLocomotion.inputHandler.jumpImput) ExitState(playerLocomotion, playerLocomotion.jumpState);
             if(playerLocomotion.inputHandler.normalAttackInput) ExitState(playerLocomotion, playerLocomotion.normalActionState);
             if(playerLocomotion.inputHandler.alternativeAttackInput) ExitState(playerLocomotion, playerLocomotion.alternativeActionState);
-            if(playerLocomotion.isOnGround == false) ExitState(playerLocomotion, playerLocomotion.fallState);
+            if(playerLocomotion.isOnGround == false && playerLocomotion.characterVelocity.y < -2.5f) ExitState(playerLocomotion, playerLocomotion.fallState);
         }
 
         public override void ExitState(PlayerLocomotion playerLocomotion, State newState)

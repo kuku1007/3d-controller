@@ -3,6 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{ff67732f-d5f2-a135-c5d2-d05e9409be1f}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralWorlds.Flora.Runtime", "ProceduralWorlds.Flora.Runtime.csproj", "{36695e4a-5839-5dd3-54ba-4f615f62c14b}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{0e1ca428-a123-a155-ca08-6497495e405d}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProceduralWorlds.Flora.Editor", "ProceduralWorlds.Flora.Editor.csproj", "{af7257db-5666-a361-630b-a8f0d9e76f3a}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,6 +16,12 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{ff67732f-d5f2-a135-c5d2-d05e9409be1f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{ff67732f-d5f2-a135-c5d2-d05e9409be1f}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36695e4a-5839-5dd3-54ba-4f615f62c14b}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36695e4a-5839-5dd3-54ba-4f615f62c14b}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0e1ca428-a123-a155-ca08-6497495e405d}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0e1ca428-a123-a155-ca08-6497495e405d}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{af7257db-5666-a361-630b-a8f0d9e76f3a}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{af7257db-5666-a361-630b-a8f0d9e76f3a}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

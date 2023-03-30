@@ -7,17 +7,19 @@ namespace LM
 
 public class RollState : State
 {
-    private float rollSpeed = 300;
+    private float rollSpeed = 200;
+    private Vector3 initDirection; 
     public override void EnterState(PlayerLocomotion playerLocomotion)
     {
         Debug.Log("Entered Roll state");
-        PlayRollAnimation(playerLocomotion.playerAnimationManager, playerLocomotion.inputHandler);
+        PlayRollAnimation(playerLocomotion, playerLocomotion.inputHandler);
     }
 
     public override void OnUpdate(PlayerLocomotion playerLocomotion)
     {
-        playerLocomotion.HandleRotation();
-        HandleAnimatorMotionMovement(playerLocomotion.playerAnimationManager, playerLocomotion.characterController);
+        playerLocomotion.HandleMovement(initDirection);
+        playerLocomotion.HandleGravity();
+        playerLocomotion.HandleAimRotationOnly();
         playerLocomotion.HandleGravity();
         if(playerLocomotion.playerAnimationManager.anim.GetBool("animationOngoing") == false) {
             ExitState(playerLocomotion, playerLocomotion.moveState);
@@ -30,22 +32,20 @@ public class RollState : State
         playerLocomotion.SetState(newState);
     }
 
-    private void HandleAnimatorMotionMovement(PlayerAnimationManager playerAnimationManager, CharacterController characterController) {
-        Vector3 deltaPostion = playerAnimationManager.anim.deltaPosition;
-        // Debug.Log("delta v" + deltaPostion.y);
-        // deltaPostion.y = 0; // TODO: 
-        characterController.Move(deltaPostion * Time.deltaTime * rollSpeed);
-    }
-
-    private void PlayRollAnimation(PlayerAnimationManager playerAnimationManager, InputHandler inputHandler) {
+    private void PlayRollAnimation(PlayerLocomotion playerLocomotion, InputHandler inputHandler) {
+        playerLocomotion.movementSpeed = 7;
+        initDirection = playerLocomotion.inputDirection;
         if(inputHandler.movementInput.x < 0) {
-            playerAnimationManager.PlayTargetAnimation("FastRollLeft", true); // TODO nth: diagonal roll
+            playerLocomotion.playerAnimationManager.PlayTargetAnimation("FastRollLeft", true); // TODO nth: diagonal roll
         } else if(inputHandler.movementInput.x > 0) {
-            playerAnimationManager.PlayTargetAnimation("FastRollRight", true);
+            playerLocomotion.playerAnimationManager.PlayTargetAnimation("FastRollRight", true);
         } else if(inputHandler.movementInput.y > 0) {
-            playerAnimationManager.PlayTargetAnimation("Rolling", true);
+            playerLocomotion.playerAnimationManager.PlayTargetAnimation("Rolling", true);
         } else {
-            playerAnimationManager.PlayTargetAnimation("Backstep", true);
+            playerLocomotion.movementSpeed = 3;
+            initDirection = playerLocomotion.transform.forward * -1;
+            initDirection.Normalize();
+            playerLocomotion.playerAnimationManager.PlayTargetAnimation("Backstep", true);
         }
     }
 }

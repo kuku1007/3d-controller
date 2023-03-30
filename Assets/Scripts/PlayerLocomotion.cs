@@ -44,8 +44,8 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
     public Vector3 currentInAirDirection;
     public bool isOnGround;
     public Vector3 inputDirection;
-    public Vector3 verticalVelocity;
-    public Vector3 charVel;
+    public Vector3 appliedVerticalVelocity;
+    public Vector3 characterVelocity;
 
     void Start()
     {
@@ -68,7 +68,7 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
         // isOnGround = groundUnderCenterPoint();
         inputHandler.TickInput(Time.deltaTime);
         FetchTargetDirection();
-        charVel = characterController.velocity;
+        characterVelocity = characterController.velocity;
         currentState.OnUpdate(this);
     }
 
@@ -100,11 +100,11 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
     }
     
     public void HandleGravity() {
-        if(isOnGround && verticalVelocity.y < 0) {
-            verticalVelocity.y = -2;
+        if(isOnGround && appliedVerticalVelocity.y < 0) {
+            appliedVerticalVelocity.y = -2;
         }
-        verticalVelocity.y += gravity * Time.deltaTime;
-        characterController.Move(verticalVelocity * Time.deltaTime);
+        appliedVerticalVelocity.y += gravity * Time.deltaTime;
+        characterController.Move(appliedVerticalVelocity * Time.deltaTime);
     }
 
     private bool isGrounded() {
@@ -113,23 +113,54 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
         return Physics.CheckSphere(spherePos, characterController.radius - groundCheckRadiusOffset, groundLayer);
     }
 
-    public void HandleSlippery() {
-        Vector3 spherePos = transform.position;
-        spherePos.y -= wallCheckVerticalOffset;
+    // public void HandleSlippery2() { // TODO: remove when other method reliable
+    //     Vector3 spherePos = transform.position;
+    //     spherePos.y -= wallCheckVerticalOffset;
   
-        Collider[] colliders = Physics.OverlapSphere(spherePos, characterController.radius + wallCheckRadiusOffset, groundLayer);
-        if(colliders.Length > 0)
-        {
-            Vector3 slipDirection = Vector3.zero;
+    //     Collider[] colliders = Physics.OverlapSphere(spherePos, characterController.radius + wallCheckRadiusOffset, groundLayer);
+    //     if(colliders.Length > 0)
+    //     {
+    //         Vector3 slipDirection = Vector3.zero;
 
-            foreach (Collider collider in colliders)
-            {
-                Vector3 colliderPosition = collider.transform.position;
-                Vector3 intersectionDirection = (spherePos - colliderPosition).normalized;
-                intersectionDirection.y *= -1; // slip down
-                slipDirection += intersectionDirection;
-            }
-			SlipMove(slipDirection);
+    //         foreach (Collider collider in colliders)
+    //         {
+    //             Vector3 colliderPosition = collider.transform.position;
+    //             Vector3 intersectionDirection = (spherePos - colliderPosition).normalized; // TODO: for bigger colliders doesnt work well as it is not collision position
+    //             intersectionDirection.y *= -1f; // slip down
+    //             slipDirection += intersectionDirection;
+    //         }
+	// 		SlipMove(slipDirection);
+	// 	}
+    // }
+
+    public void HandleSlippery() {
+        RaycastHit hit;
+        Vector3 ray_spwan_pos = transform.position;
+        ray_spwan_pos.y -= wallCheckVerticalOffset;
+
+		Vector3 forward = transform.forward * m_wallCheck.x; //X as length of rays
+        Vector3 forwardLeft = (transform.forward - transform.right) * m_wallCheck.x;
+        Vector3 forwardRight = (transform.forward + transform.right) * m_wallCheck.x;
+		Vector3 back = -transform.forward * m_wallCheck.x;
+        Vector3 backLeft = (-transform.forward - transform.right) * m_wallCheck.x;
+        Vector3 backRight = (-transform.forward + transform.right) * m_wallCheck.x;
+		Vector3 right = transform.right * m_wallCheck.x;
+		Vector3 left = -transform.right * m_wallCheck.x;
+
+		Ray front_ray = new Ray(ray_spwan_pos, forward);
+        Ray frontLeft_ray = new Ray(ray_spwan_pos, forwardLeft);
+        Ray frontRight_ray = new Ray(ray_spwan_pos, forwardRight);
+		Ray back_ray = new Ray(ray_spwan_pos, back);
+		Ray backLeft_ray = new Ray(ray_spwan_pos, backLeft);
+        Ray backRight_ray = new Ray(ray_spwan_pos, backRight);
+		Ray right_ray = new Ray(ray_spwan_pos, right);
+		Ray left_ray = new Ray(ray_spwan_pos, left);
+
+		float dis = m_wallCheck.x;
+
+		if(Physics.Raycast (back_ray, out hit, dis, groundLayer) || Physics.Raycast (right_ray, out hit, dis, groundLayer) || 
+        Physics.Raycast (left_ray, out hit, dis, groundLayer) || Physics.Raycast (front_ray, out hit, dis, groundLayer)) {
+			SlipMove(hit.normal);
 		}
     }
 
@@ -145,8 +176,8 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
     }
 
 	void SlipMove(Vector3 slip_direction){
-        Debug.Log("slip active");
-		characterController.Move(((slip_direction * slipSpeed) + Vector3.down) * Time.deltaTime);
+        Debug.Log("slip active" + slip_direction);
+		characterController.Move(((slip_direction * slipSpeed) + (Vector3.down * 1.5f)) * Time.deltaTime);
 	}
 
     void OnDrawGizmos(){
@@ -157,10 +188,10 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
         spherePos.y -= groundCheckVerticalOffset;
         Gizmos.DrawWireSphere(spherePos, characterController.radius - groundCheckRadiusOffset);
         
-        spherePos = transform.position; // wall slippery sphere
-        spherePos.y -= wallCheckVerticalOffset;
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(spherePos, characterController.radius + wallCheckRadiusOffset);
+        // spherePos = transform.position; // wall slippery sphere
+        // spherePos.y -= wallCheckVerticalOffset;
+        // Gizmos.color = Color.blue;
+        // Gizmos.DrawWireSphere(spherePos, characterController.radius + wallCheckRadiusOffset);
 
         // Gizmos.color = Color.yellow; // check if slippery should be activated
         // spherePos = transform.position;
@@ -171,9 +202,47 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
         spherePos = transform.position;
         Ray r = new Ray(spherePos, Vector3.down);
         Gizmos.DrawRay(spherePos, Vector3.down * rayCastCheckDistance);
+
+
+        Vector3 ray_spwan_pos = transform.position;
+        ray_spwan_pos.y -= wallCheckVerticalOffset;
+		
+		Vector3 forward = transform.forward * m_wallCheck.x; //X as length of rays
+        Vector3 forwardLeft = (transform.forward - transform.right) * m_wallCheck.x;
+        Vector3 forwardRight = (transform.forward + transform.right) * m_wallCheck.x;
+		Vector3 back = -transform.forward * m_wallCheck.x;
+        Vector3 backLeft = (-transform.forward - transform.right) * m_wallCheck.x;
+        Vector3 backRight = (-transform.forward + transform.right) * m_wallCheck.x;
+		Vector3 right = transform.right * m_wallCheck.x;
+		Vector3 left = -transform.right * m_wallCheck.x;
+		
+		Gizmos.color = Color.blue;
+		Gizmos.DrawRay(ray_spwan_pos, forward);
+        Gizmos.DrawRay(ray_spwan_pos, forwardLeft);
+        Gizmos.DrawRay(ray_spwan_pos, forwardRight);
+		Gizmos.DrawRay(ray_spwan_pos, back);
+        Gizmos.DrawRay(ray_spwan_pos, backLeft);
+        Gizmos.DrawRay(ray_spwan_pos, backRight);
+		Gizmos.DrawRay(ray_spwan_pos, right);
+		Gizmos.DrawRay(ray_spwan_pos, left);
+
+		Gizmos.color = Color.green;
+		Vector3 ray_pos = transform.position + Vector3.up * m_groundCheck.x;
+		Gizmos.DrawRay(ray_pos , Vector3.down * m_groundCheck.y);
+		
+		//Gizmos.DrawRay(ray_pos + transform.forward * m_groundCheck.z, Vector3.down * m_groundCheck.y);
+		Gizmos.DrawRay(ray_pos - transform.forward * m_groundCheck.z, Vector3.down * m_groundCheck.y);
 	}
 
     public void HandleRotation() {
+        HandleRotation(true);
+    }
+
+    public void HandleAimRotationOnly() {
+        HandleRotation(false);
+    }
+
+    public void HandleRotation(bool checkIfRotateCharacter) {
         #region Follow Transform Rotation
 
         //Rotate the Follow Target transform based on the input
@@ -202,11 +271,14 @@ public class PlayerLocomotion : MonoBehaviour // TODO: probably promote to Playe
         camFollowTransform.localEulerAngles = angles;
         #endregion
 
+        if(checkIfRotateCharacter == false) 
+        {
+            return;
+        }
         if (inputHandler.movementInput.x == 0 && inputHandler.movementInput.y == 0) 
         {   
             return; // Do not rotate player transform when in idle/notMoving TODO here: when not moving and for example rolling the camera jitters
         }   
-        
 
         //Set the player rotation based on the look transform
         transform.rotation = Quaternion.Euler(0, camFollowTransform.rotation.eulerAngles.y, 0);

@@ -20,6 +20,7 @@ namespace LM
         {
             playerLocomotion.HandleMovement(playerLocomotion.currentInAirDirection);
             playerLocomotion.HandleGravity();
+            playerLocomotion.HandleAimRotationOnly();
             if(playerLocomotion.playerAnimationManager.anim.GetBool("animationOngoing") == false) 
                 ExitState(playerLocomotion, playerLocomotion.fallState);
         }
@@ -30,7 +31,7 @@ namespace LM
         }
 
         private void SetVerticalVelocityAndPlayJump(PlayerAnimationManager playerAnimationManager, InputHandler inputHandler, PlayerLocomotion playerLocomotion) {
-            playerLocomotion.verticalVelocity.y = Mathf.Sqrt(jumpPower * -3f * playerLocomotion.gravity);
+            playerLocomotion.appliedVerticalVelocity.y = Mathf.Sqrt(jumpPower * -3f * playerLocomotion.gravity);
             playerAnimationManager.PlayTargetAnimation("Jump", true);
         }
     }

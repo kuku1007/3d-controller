@@ -36,6 +36,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\AI\Enemy\State\CombatStanceState.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Gaia Pro\HDRP Time Of Day\Scripts\Weather Effects\WeatherWindSyncController.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\GaiaConstants.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Lighting System\HDRPDensityVolumeComponent.cs" />
@@ -90,6 +91,7 @@
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\ResourcesSystem\ResourceProtoStamp.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Utils\FractalGenerator.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\SessionSystem\SpawnOperationSettings.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\EnemyStats.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\ValueAdds\Post Processing Converter\PostProcessingConverter.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Mesh Simplifier\Runtime\Internal\BlendShapeContainer.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Gaia Pro\Weather\VFX\Scripts\InteriorWeatherController.cs" />
@@ -116,7 +118,9 @@
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\SpawningSystem\SpawnExtensionInfo.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\ExtensionSystem\Compatible\DesktopTreesPackage.cs" />
      <Compile Include="Assets\Scripts\Item\Item.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\EnemyAnimationManager.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\WindSystem\WindManager.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\State\AmbushState.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Asset Samples\Standard Assets\CrossPlatformInput\Scripts\PlatformSpecific\MobileInput.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Utils\SimpleCameraLayerCulling.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\MaskSystem\ImageMask.cs" />
@@ -145,9 +149,11 @@
      <Compile Include="Assets\Procedural Worlds\Gaia\Gaia Pro\HDRP Time Of Day\Content Resources\Weather\Rain Storm\Scripts\WeatherFXRain.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\SpawningSystem\BiomePreset.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Utils\MaskedTerrainMesh.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\EnemyLocomotion.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Water System\AdvancedWaterUtils.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\SpawningSystem\SpawnRuleExtension.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Photo Mode\UIControllerSelection.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\State\PursueState.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\MaskSystem\CollisionMask.cs" />
      <Compile Include="Assets\Procedural Worlds\Frameworks\PWAddressables1\DemoClient\Scripts\WorldSelectionConfiguration.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Asset Samples\Standard Assets\Vehicles\Car\Scripts\Suspension.cs" />
@@ -172,6 +178,7 @@
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Unity\Terrain Tools\Noise\NoiseSettingsGUI.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\API\DemoAPIController.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Gaia Pro\HDRP Time Of Day\Scripts\Weather Effects\WeatherFXInstance.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\State\IdleState.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Mesh Simplifier\Runtime\AssemblyAttributes.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Asset Samples\Standard Assets\Characters\ThirdPersonCharacter\Scripts\ThirdPersonUserControl.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\SpawningSystem\SpawnInfo.cs" />
@@ -195,6 +202,7 @@
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Water System\DisableUnderwaterFXTrigger.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\ResourcesSystem\ResourceProtoGameObjectSO.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Unity\Terrain Tools\Noise\NoiseComponentEditor.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\EnemyAction.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\ScanningSystem\BinaryReaderMac.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Asset Samples\Standard Assets\Vehicles\Car\Scripts\CarUserControl.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Lighting System\GaiaLightingProfile.cs" />
@@ -229,6 +237,7 @@
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\ValueAdds\Growth.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Mesh Simplifier\Runtime\Internal\UVChannels.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Asset Samples\Standard Assets\Vehicles\Car\Scripts\BrakeLight.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\EnemyAttackAction.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Water System\HDRPUnderwaterFog.cs" />
      <Compile Include="Assets\Scripts\UI\InteractableUI.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\SpawningSystem\WorldBiomeMasks.cs" />
@@ -257,15 +266,19 @@
      <Compile Include="Assets\Procedural Worlds\Gaia\Gaia Pro\HDRP Time Of Day\Scripts\HDRPTimeOfDay.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Photo Mode\PhotoModePanelButton.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Photo Mode\PhotoModeUIHelper.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\EnemyWeaponSlotManager.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Gaia Pro\HDRP Time Of Day\Content Resources\Weather\Sand Storm\Scripts\WeatherFXSand.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Asset Samples\Standard Assets\Characters\FirstPersonCharacter\Scripts\MouseLook.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Photo Mode\TooltipTrigger.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\State\EnemyState.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Scene Managment\SceneProfile.cs" />
+     <Compile Include="Assets\Scripts\AI\NewEnemy\NewEnemLocomotion.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Utils\GaiaScriptOrder.cs" />
      <Compile Include="Assets\Scripts\UI\StaminaBar.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Gaia Pro\HDRP Time Of Day\Content Resources\Weather\Rain Storm\Scripts\WeatherFXThunder.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Unity\Terrain Tools\Noise\NoiseSettingsFactory.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\SessionSystem\GaiaSessionManager.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\State\AttackState.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\SpawningSystem\BiomeController.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Water System\Reflections\PWS_WaterSystem.cs" />
      <Compile Include="Assets\Scripts\PlayerAttacker.cs" />
@@ -306,6 +319,7 @@
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\ValueAdds\UIConfiguration.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Lighting System\GaiaShaderID.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\ExtensionSystem\GaiaCompatiblePublisher.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\EnemyManager.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\ResourcesSystem\GaiaMaintenanceProfile.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Utils\ScaleTexture.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Scene Managment\GaiaScenePlayer.cs" />
@@ -339,6 +353,7 @@
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\ResourcesSystem\ResourceProtoTreeSO.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Gaia Pro\Scripts\Unity\Terrain Tools\Erosion\HydraulicErosionSettings.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Photo Mode\Tooltip.cs" />
+     <Compile Include="Assets\Scripts\AI\Enemy\AnimationManager.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Gaia Pro\HDRP Time Of Day\Scripts\HDRPTimeOfDayOverrideVolumeController.cs" />
      <Compile Include="Assets\Scripts\UI\HandEquipmentSlot.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Gaia Pro\Weather\VFX\Scripts\ProceduralWorldsGlobalWeather.cs" />
@@ -387,21 +402,7 @@
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\SpawningSystem\ISpawnExtension.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Scripts\Utils\OrthographicBake.cs" />
      <Compile Include="Assets\Procedural Worlds\Gaia\Gaia Pro\HDRP Time Of Day\Scripts\HDRPTimeOfDayPostFXProfile.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\EnemyAnimationManager.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\State\EnemyState.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\EnemyLocomotion.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\State\CombatStanceState.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\EnemyStats.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\State\AttackState.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\EnemyWeaponSlotManager.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\State\AmbushState.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\State\PursueState.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\State\IdleState.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\EnemyManager.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\AnimationManager.cs" />
      <Compile Include="Assets\Scripts\AI\Enemy\CharacterManager.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\EnemyAction.cs" />
-     <Compile Include="Assets\Scripts\AI\Enemy\EnemyAttackAction.cs" />
      <None Include="Assets\Procedural Worlds\Gaia\Shaders\PW General\PW_SkyboxCubemap.shader" />
      <None Include="Assets\Procedural Worlds\Gaia\Gaia Pro\Scripts\Unity\Terrain Tools\Resources\Thermal.compute" />
      <None Include="Assets\Procedural Worlds\Gaia\Asset Samples\NatureManufacture\_Readme.txt" />

@@ -12,12 +12,12 @@ namespace LM
             enemyManager = GetComponentInParent<EnemyManager>();
         }
 
-        private void OnAnimatorMove() {
-            float delta = Time.deltaTime;
-            enemyManager.myRigidbody.drag = 0;
-            Vector3 deltaPostion = anim.deltaPosition;
-            deltaPostion.y = 0;
-            enemyManager.myRigidbody.velocity = deltaPostion / delta;
-        }
+        // private void OnAnimatorMove() {
+        //     float delta = Time.deltaTime;
+        //     enemyManager.myRigidbody.drag = 0;
+        //     Vector3 deltaPostion = anim.deltaPosition;
+        //     deltaPostion.y = 0;
+        //     enemyManager.myRigidbody.velocity = deltaPostion / delta;
+        // }
     }
 }

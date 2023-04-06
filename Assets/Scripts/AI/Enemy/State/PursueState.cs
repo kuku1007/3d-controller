@@ -50,11 +50,11 @@ namespace LM
                     Quaternion.Slerp(enemyManager.transform.rotation, targetRotation, enemyManager.rotationSpeed / Time.deltaTime); // TODO: not fixedDeltaTime?
             } else {
                 Vector3 relativeDir = enemyManager.transform.InverseTransformDirection(enemyManager.navMeshAgent.desiredVelocity); // TODO:?
-                Vector3 targetVelocity = enemyManager.myRigidbody.velocity;
+                // Vector3 targetVelocity = enemyManager.myRigidbody.velocity;
 
                 enemyManager.navMeshAgent.enabled = true;
                 enemyManager.navMeshAgent.SetDestination(enemyManager.currentDetectedCharacter.transform.position);
-                enemyManager.myRigidbody.velocity = targetVelocity; // TODO: so navMeshAgent already changed this?
+                // enemyManager.myRigidbody.velocity = targetVelocity; // TODO: so navMeshAgent already changed this?
                 enemyManager.transform.rotation = 
                     Quaternion.Slerp(enemyManager.transform.rotation, enemyManager.navMeshAgent.transform.rotation, enemyManager.rotationSpeed / Time.deltaTime);
             }   

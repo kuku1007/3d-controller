@@ -19,7 +19,7 @@ namespace LM
         public EnemyState currentState;
         public CharacterStats currentDetectedCharacter;
         public NavMeshAgent navMeshAgent;
-        public Rigidbody myRigidbody;
+        // public Rigidbody myRigidbody;
 
         EnemyLocomotion enemyLocomotion;
         EnemyAnimationManager enemyAnimationManager;
@@ -29,13 +29,13 @@ namespace LM
             enemyLocomotion = GetComponent<EnemyLocomotion>();
             enemyAnimationManager = GetComponentInChildren<EnemyAnimationManager>();
             enemyStats = GetComponent<EnemyStats>();
-            myRigidbody = GetComponent<Rigidbody>();
+            // myRigidbody = GetComponent<Rigidbody>();
             navMeshAgent = GetComponentInChildren<NavMeshAgent>();
             navMeshAgent.enabled = false;
         }
 
         private void Start() {
-            myRigidbody.isKinematic = false;
+            // myRigidbody.isKinematic = false;
         }
 
         private void Update() {
